@@ -77,8 +77,7 @@ public class RiscossioneConverterGUISwing extends JFrame {
 	 * Crea la GUI Swing
 	 */
 	public RiscossioneConverterGUISwing() {
-		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(this.getClass().getResource("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/RiscossioneConverter.png")));
 		setTitle("Riscossione Converter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 470, 222);

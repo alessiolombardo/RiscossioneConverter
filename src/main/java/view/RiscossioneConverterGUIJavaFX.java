@@ -130,8 +130,7 @@ public class RiscossioneConverterGUIJavaFX extends Application {
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Riscossione Converter");
 		primaryStage.setResizable(false);
-		primaryStage.getIcons().add(
-				new Image(this.getClass().getResourceAsStream("/com/sun/java/swing/plaf/windows/icons/Computer.gif")));
+		primaryStage.getIcons().add(new Image(this.getClass().getResourceAsStream("/RiscossioneConverter.png")));
 
 		try {
 			FXMLLoader loader = new FXMLLoader();
