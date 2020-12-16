@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>alessiolombardo</groupId>
+	<artifactId>RiscossioneConverter</artifactId>
+	<version>1.0</version>
+	<name>RiscossioneConverter</name>
+	<description>RiscossioneConverter</description>
+
+	<build>
+		<finalName>${project.name}</finalName>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.4</version>
+				<executions>
+					<execution>
+						<id>shade-swing</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<source>1.7</source>
+							<target>1.7</target>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>view.RiscossioneConverterGUISwing</mainClass>
+								</transformer>
+							</transformers>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>RiscossioneConverterGUIJavaFX.fxml</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<classifier>swing</classifier>
+							<outputFile>bin/${project.artifactId}_${project.version}_swing.jar</outputFile>
+						</configuration>
+					</execution>
+					<execution>
+						<id>shade-javafx</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<source>1.8</source>
+							<target>1.8</target>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>view.RiscossioneConverterGUIJavaFX</mainClass>
+								</transformer>
+							</transformers>
+							<classifier>javafx</classifier>
+							<outputFile>bin/${project.artifactId}_${project.version}_javafx.jar</outputFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.2.0</version>
+				<configuration>
+					<show>private</show>
+					<doclint>none</doclint>
+					<reportOutputDirectory>docs</reportOutputDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.17</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
