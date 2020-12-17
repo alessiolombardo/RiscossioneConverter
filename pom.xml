@@ -7,10 +7,19 @@
 	<version>1.0</version>
 	<name>RiscossioneConverter</name>
 	<description>RiscossioneConverter</description>
-
 	<build>
 		<finalName>${project.name}</finalName>
+		
 		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>7</release>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -24,8 +33,7 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<source>1.7</source>
-							<target>1.7</target>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
@@ -40,7 +48,11 @@
 									</excludes>
 								</filter>
 							</filters>
-							<classifier>swing</classifier>
+							<artifactSet>
+								<excludes>
+									<exclude>org.openjfx</exclude>
+								</excludes>
+							</artifactSet>
 							<outputFile>bin/${project.artifactId}_${project.version}_swing.jar</outputFile>
 						</configuration>
 					</execution>
@@ -51,15 +63,13 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<source>1.8</source>
-							<target>1.8</target>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>view.RiscossioneConverterGUIJavaFX</mainClass>
 								</transformer>
 							</transformers>
-							<classifier>javafx</classifier>
 							<outputFile>bin/${project.artifactId}_${project.version}_javafx.jar</outputFile>
 						</configuration>
 					</execution>
@@ -76,6 +86,15 @@
 					<reportOutputDirectory>docs</reportOutputDirectory>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-maven-plugin</artifactId>
+				<version>0.0.5</version>
+				<configuration>
+					<mainClass>HelloFX</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 
 	</build>
@@ -87,6 +106,20 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.17</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-controls</artifactId>
+			<version>15.0.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>15.0.1</version>
 		</dependency>
 
 	</dependencies>
