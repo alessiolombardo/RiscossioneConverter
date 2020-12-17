@@ -13,3 +13,5 @@ java --module-path <PERCORSO LIBRERIA JAVAFX> --add-modules=javafx.controls,java
 L'approccio di programmazione MVC consente facilmente di estrarre/modificare/sostituire il modello dei dati, il formato di output o l'interfaccia grafica.
 
 Se viene selezionato un file Excel non vuoto, i record convertiti vengono inseriti in coda, senza alterare i record precedenti.
+
+[Documentazione API (Javadoc)](https://alessiolombardo.github.io/RiscossioneConverter/apidocs/)
