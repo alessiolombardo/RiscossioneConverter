@@ -44,10 +44,11 @@ description:
       10 (con JDK15).
 
       - JavaFX: Testata su Windows 7 (con JRE8), Windows 10 (con JDK15). Windows
-      XP non supportato. NOTA: Ove la libreria JavaFX non fosse gi‡ integrata
+      XP non supportato. NOTA: Ove la libreria JavaFX non fosse gi√† integrata
       nel JDK/JRE, specificarla avviando il jar con:
 
-          java --module-path <PERCORSO LIBRERIA JAVAFX> --add-modules=javafx.controls,javafx.fxml -jar <NOME JAR>
+      - java --module-path <PERCORSO LIBRERIA JAVAFX>
+      --add-modules=javafx.controls,javafx.fxml -jar <NOME JAR>
 
 
       L'approccio di programmazione MVC consente facilmente di
@@ -59,7 +60,9 @@ description:
       inseriti in coda, senza alterare i record precedenti.
     shortDescription: |-
       Convertitore per file a blocchi con tracciato record indicato negli
+
       Allegati 1/2 del Decreto 15/06/2015 del Ministero dell'Economia e delle
+
       Finanze
 developmentStatus: stable
 inputTypes:
