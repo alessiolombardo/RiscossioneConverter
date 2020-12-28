@@ -1,0 +1,106 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - document-management
+dependsOn:
+  open:
+    - name: Java Development Kit / Java Runtime Environment
+      optional: false
+      version: ''
+      versionMax: ''
+      versionMin: '8'
+    - name: JavaFX
+      optional: true
+      version: ''
+      versionMax: ''
+      versionMin: '8'
+description:
+  it:
+    apiDocumentation: 'https://alessiolombardo.github.io/RiscossioneConverter/apidocs/'
+    features:
+      - Converte da file a blocchi a file Excel
+      - Interfaccia semplice e minimale
+    genericName: Software di transcodifica
+    localisedName: RiscossioneConverter
+    longDescription: |
+      RiscossioneConverter consente di convertire in file Excel 97/2003 (.xls)
+      un file a blocchi contenente record a lunghezza fissa secondo le
+      specifiche degli [Allegati 1/2 del Decreto 15/06/2015 del Ministero
+      dell'Economia e delle
+      Finanze](https://www.gazzettaufficiale.it/atto/serie_generale/caricaDettaglioAtto/originario?atto.dataPubblicazioneGazzetta=2015-06-22&atto.codiceRedazionale=15A04675&elenco30giorni=false)
+      inerente la trasmissione agli enti creditori delle quote annullate e di
+      rimborso agli agenti della riscossione delle spese esecutive sostenute per
+      i ruoli.
+
+
+      Interamente sviluppato in Java e con interfaccia grafica minimale
+      disponibile in due versioni:
+
+
+      - Swing: Testata su Windows XP (con JRE7), Windows 7 (con JRE8), Windows
+      10 (con JDK15).
+
+      - JavaFX: Testata su Windows 7 (con JRE8), Windows 10 (con JDK15). Windows
+      XP non supportato. NOTA: Ove la libreria JavaFX non fosse già integrata
+      nel JDK/JRE, specificarla avviando il jar con:
+
+          java --module-path <PERCORSO LIBRERIA JAVAFX> --add-modules=javafx.controls,javafx.fxml -jar <NOME JAR>
+
+
+      L'approccio di programmazione MVC consente facilmente di
+      estrarre/modificare/sostituire il modello dei dati, il formato di output o
+      l'interfaccia grafica.
+
+
+      Se viene selezionato un file Excel non vuoto, i record convertiti vengono
+      inseriti in coda, senza alterare i record precedenti.
+    shortDescription: |-
+      Convertitore per file a blocchi con tracciato record indicato negli
+      Allegati 1/2 del Decreto 15/06/2015 del Ministero dell'Economia e delle
+      Finanze
+developmentStatus: stable
+inputTypes:
+  - text/plain
+intendedAudience:
+  countries:
+    - it
+  scope:
+    - local-authorities
+it:
+  conforme:
+    gdpr: false
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: false
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+landingURL: 'https://github.com/alessiolombardo/RiscossioneConverter/releases'
+legal:
+  license: GPL-3.0-or-later
+  mainCopyrightOwner: Alessio Lombardo
+  repoOwner: Alessio Lombardo
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contacts:
+    - email: alessiox.94@hotmail.it
+      name: Alessio Lombardo
+  type: internal
+name: RiscossioneConverter
+outputTypes:
+  - application/vnd.ms-excel
+platforms:
+  - windows
+releaseDate: '2020-12-28'
+softwareType: standalone/desktop
+softwareVersion: '1.0'
+url: 'https://github.com/alessiolombardo/RiscossioneConverter'
