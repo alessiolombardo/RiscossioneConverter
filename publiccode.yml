@@ -20,35 +20,39 @@ dependsOn:
 description:
   it:
     apiDocumentation: 'https://alessiolombardo.github.io/RiscossioneConverter/apidocs/'
+    documentation: |-
+      https://github.com/alessiolombardo/RiscossioneConverter/blob/main/README.md
     features:
-      - Converte da file a blocchi a file Excel
+      - 'Converte da file a blocchi a file Excel, Excel 97-2003, ODS, XML e JSON'
       - Interfaccia semplice e minimale
+      - Massima Portabilità
+      - Documentazione API disponibile
     genericName: Software di transcodifica
     localisedName: RiscossioneConverter
     longDescription: |
-      RiscossioneConverter consente di convertire in file Excel 97/2003 (.xls)
-      un file a blocchi contenente record a lunghezza fissa secondo le
-      specifiche degli [Allegati 1/2 del Decreto 15/06/2015 del Ministero
-      dell'Economia e delle
+      RiscossioneConverter consente la conversione di un file a blocchi
+      contenente record a lunghezza fissa secondo le specifiche degli [Allegati
+      1/2 del Decreto 15/06/2015 del Ministero dell'Economia e delle
       Finanze](https://www.gazzettaufficiale.it/atto/serie_generale/caricaDettaglioAtto/originario?atto.dataPubblicazioneGazzetta=2015-06-22&atto.codiceRedazionale=15A04675&elenco30giorni=false)
       inerente la trasmissione agli enti creditori delle quote annullate e di
       rimborso agli agenti della riscossione delle spese esecutive sostenute per
-      i ruoli.
+      i ruoli. I formati di output supportati sono Excel (.xlsx), Excel 97-2003
+      (.xls), OpenDocument Spreadsheet (.ods), XML e JSON.
 
 
-      Interamente sviluppato in Java e con interfaccia grafica minimale
-      disponibile in due versioni:
+      Il software è interamente sviluppato in Java e con interfaccia grafica
+      minimale disponibile in due versioni:
 
 
       - Swing: Testata su Windows XP (con JRE7), Windows 7 (con JRE8), Windows
-      10 (con JDK15).
+      10 (con JDK15), Ubuntu 20.04 (con JDK11);
 
-      - JavaFX: Testata su Windows 7 (con JRE8), Windows 10 (con JDK15). Windows
-      XP non supportato. NOTA: Ove la libreria JavaFX non fosse già integrata
-      nel JDK/JRE, specificarla avviando il jar con:
+      - JavaFX: Testata su Windows 7 (con JRE8), Windows 10 (con JDK15), Ubuntu
+      20.04 (con JDK11). Windows XP non supportato.
 
-      - java --module-path <PERCORSO LIBRERIA JAVAFX>
-      --add-modules=javafx.controls,javafx.fxml -jar <NOME JAR>
+
+      Gli output in formato .xls, .xlsx e .ods sono stati testati su Microsoft
+      Excel 2013 e LibreOffice Calc 6.4.6.2.
 
 
       L'approccio di programmazione MVC consente facilmente di
@@ -56,13 +60,11 @@ description:
       l'interfaccia grafica.
 
 
-      Se viene selezionato un file Excel non vuoto, i record convertiti vengono
-      inseriti in coda, senza alterare i record precedenti.
+      Se viene selezionato un file di output non vuoto, i record convertiti
+      vengono inseriti in coda, senza alterare i record precedenti.
     shortDescription: |-
       Convertitore per file a blocchi con tracciato record indicato negli
-
       Allegati 1/2 del Decreto 15/06/2015 del Ministero dell'Economia e delle
-
       Finanze
 developmentStatus: stable
 inputTypes:
@@ -100,10 +102,15 @@ maintenance:
   type: internal
 name: RiscossioneConverter
 outputTypes:
+  - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
   - application/vnd.ms-excel
+  - application/vnd.oasis.opendocument.spreadsheet
+  - text/xml
+  - application/json
 platforms:
   - windows
-releaseDate: '2020-12-28'
+  - linux
+releaseDate: '2021-01-03'
 softwareType: standalone/desktop
-softwareVersion: '1.0'
+softwareVersion: '1.1'
 url: 'https://github.com/alessiolombardo/RiscossioneConverter'

@@ -5,11 +5,8 @@ package model;
  * Classe di Modello del DECRETO 15 GIUGNO 2015 DEL MINISTERO DELL'ECONOMIA E
  * DELLE FINANZE - ALLEGATI 1/2
  * 
- * Tracciato record:
- * https://www.gazzettaufficiale.it/do/atto/serie_generale/caricaPdf?cdimg=15A0467500100010110001&dgu=2015-06-22&art.dataPubblicazioneGazzetta=2015-06-22&art.codiceRedazionale=15A04675&art.num=1&art.tiposerie=SG
- * 
- * Normativa:
- * https://www.gazzettaufficiale.it/atto/serie_generale/caricaDettaglioAtto/originario?atto.dataPubblicazioneGazzetta=2015-06-22&atto.codiceRedazionale=15A04675
+ * @see <a href="https://www.gazzettaufficiale.it/do/atto/serie_generale/caricaPdf?cdimg=15A0467500100010110001&dgu=2015-06-22&art.dataPubblicazioneGazzetta=2015-06-22&art.codiceRedazionale=15A04675&art.num=1&art.tiposerie=SG" target="_blank">Tracciato record</a>
+ * @see <a href="https://www.gazzettaufficiale.it/atto/serie_generale/caricaDettaglioAtto/originario?atto.dataPubblicazioneGazzetta=2015-06-22&atto.codiceRedazionale=15A04675" target="_blank">Normativa</a>
  * 
  * @author Alessio Lombardo
  *
@@ -19,7 +16,7 @@ public class RiscossioneModel {
 
 	/**
 	 * 
-	 * Elenco campi del file Excel (legati ai campi del tracciato record)
+	 * Elenco campi del file di output (legati ai campi del tracciato record)
 	 * 
 	 * @author Alessio Lombardo
 	 *
@@ -102,13 +99,13 @@ public class RiscossioneModel {
 	 * Carico iscritto a ruolo del tributo (Tipo: N, Lunghezza: 17, FLOAT Formato
 	 * Cobol "9(15)V99")
 	 */
-	private float caricoIscritto;
+	private double caricoIscritto;
 
 	/**
 	 * Carico residuo del tributo (Tipo: N, Lunghezza: 17, FLOAT Formato Cobol
 	 * "9(15)V99" )
 	 */
-	private float caricoResiduo;
+	private double caricoResiduo;
 
 	public int getAgenteRiscossione() {
 		return agenteRiscossione;
@@ -214,19 +211,19 @@ public class RiscossioneModel {
 		this.tipoTributo = tipoTributo;
 	}
 
-	public float getCaricoIscritto() {
+	public double getCaricoIscritto() {
 		return caricoIscritto;
 	}
 
-	public void setCaricoIscritto(float caricoIscritto) {
+	public void setCaricoIscritto(double caricoIscritto) {
 		this.caricoIscritto = caricoIscritto;
 	}
 
-	public float getCaricoResiduo() {
+	public double getCaricoResiduo() {
 		return caricoResiduo;
 	}
 
-	public void setCaricoResiduo(float caricoResiduo) {
+	public void setCaricoResiduo(double caricoResiduo) {
 		this.caricoResiduo = caricoResiduo;
 	}
 

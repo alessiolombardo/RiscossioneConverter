@@ -37,10 +37,10 @@ public class RiscossioneConverterGUIJavaFX extends Application {
 	private TextField textFieldFileDati;
 
 	/**
-	 * Text Field che visualizza percorso e nome del file Excel selezionato
+	 * Text Field che visualizza percorso e nome del file di output selezionato
 	 */
 	@FXML
-	private TextField textFieldFileExcel;
+	private TextField textFieldFileOutput;
 
 	/**
 	 * Consente la scelta del file dati (funzione legata alla pressione del tasto
@@ -66,24 +66,27 @@ public class RiscossioneConverterGUIJavaFX extends Application {
 	}
 
 	/**
-	 * Consente la scelta del file Excel (funzione legata alla pressione del tasto
-	 * "Apri File Excel")
+	 * Consente la scelta del file di output (funzione legata alla pressione del tasto
+	 * "Apri File di Output")
 	 * 
 	 * @param event Evento click sul bottone
 	 */
 	@FXML
-	private void apriFileExcel(ActionEvent event) {
+	private void apriFileOutput(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle("Apri File Excel");
-		fileChooser.setInitialDirectory(new File(converter.getLastPathExcel()));
-		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("File Excel (*.xls)", "*.xls"));
+		fileChooser.setTitle("Apri File di Output");
+		fileChooser.setInitialDirectory(new File(converter.getLastPathOutput()));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel (*.xlsx)", "*.xlsx"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel 97-2003 (*.xls)", "*.xls"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Open Document Spreadsheet (*.ods)", "*.ods"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML (*.xml)", "*.xml"));
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON (*.json)", "*.json"));
 		File selectedFile = fileChooser.showSaveDialog(null);
+
 		if (selectedFile != null) {
-			if (!selectedFile.getAbsolutePath().endsWith(".xls"))
-				selectedFile = new File(selectedFile.getAbsolutePath() + ".xls");
 			if (selectedFile.exists())
-				converter.setLastPathExcel(selectedFile.getParent());
-			textFieldFileExcel.setText(selectedFile.getAbsolutePath());
+				converter.setLastPathOutput(selectedFile.getParent());
+			textFieldFileOutput.setText(selectedFile.getAbsolutePath());
 		}
 	}
 
@@ -95,7 +98,7 @@ public class RiscossioneConverterGUIJavaFX extends Application {
 	@FXML
 	private void converti(ActionEvent event) {
 		converter.setFileDati(new File(textFieldFileDati.getText()));
-		converter.setFileExcel(new File(textFieldFileExcel.getText()));
+		converter.setFileOutput(new File(textFieldFileOutput.getText()));
 
 		try {
 			converter.avviaConversione();
@@ -109,7 +112,7 @@ public class RiscossioneConverterGUIJavaFX extends Application {
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Errore");
 			alert.setHeaderText(null);
-			alert.setContentText(e1.getMessage());
+			alert.setContentText(e1.getClass().getSimpleName() + ": " + e1.getMessage());
 			alert.showAndWait();
 		}
 	}

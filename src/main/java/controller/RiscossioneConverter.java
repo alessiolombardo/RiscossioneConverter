@@ -1,30 +1,18 @@
 package controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+
 import model.RiscossioneModel;
 
 /**
  * Controller dell'applicazione: consente di convertire un ruolo da un formato a
  * blocchi (si veda classe RiscossioneModel per ulteriori dettagli) ad un
- * formato Excel
+ * formato Excel, ODS, XML o JSON
  * 
  * @see RiscossioneModel
- * @author Alessio
+ * @author Alessio Lombardo
  *
  */
 public class RiscossioneConverter {
@@ -35,9 +23,9 @@ public class RiscossioneConverter {
 	private File fileDati;
 
 	/**
-	 * File Excel (output)
+	 * File di Output
 	 */
-	private File fileExcel;
+	private File fileOutput;
 
 	/**
 	 * Ultima directory selezionata per il file dati
@@ -45,9 +33,9 @@ public class RiscossioneConverter {
 	private String lastPathDati = ".";
 
 	/**
-	 * Ultima directory selezionata per il file excel
+	 * Ultima directory selezionata per il file di output
 	 */
-	private String lastPathExcel = ".";
+	private String lastPathOutput = ".";
 
 	public File getFileDati() {
 		return fileDati;
@@ -57,12 +45,12 @@ public class RiscossioneConverter {
 		this.fileDati = fileDati;
 	}
 
-	public File getFileExcel() {
-		return fileExcel;
+	public File getFileOutput() {
+		return fileOutput;
 	}
 
-	public void setFileExcel(File fileExcel) {
-		this.fileExcel = fileExcel;
+	public void setFileOutput(File fileOutput) {
+		this.fileOutput = fileOutput;
 	}
 
 	public String getLastPathDati() {
@@ -73,34 +61,35 @@ public class RiscossioneConverter {
 		this.lastPathDati = lastPathDati;
 	}
 
-	public String getLastPathExcel() {
-		return lastPathExcel;
+	public String getLastPathOutput() {
+		return lastPathOutput;
 	}
 
-	public void setLastPathExcel(String lastPathExcel) {
-		this.lastPathExcel = lastPathExcel;
+	public void setLastPathOutput(String lastPathOutput) {
+		this.lastPathOutput = lastPathOutput;
 	}
 
 	/**
-	 * Avvia conversione (legge dati, converte, salva in formato Excel)
+	 * Avvia conversione (legge dati, converte, salva nel formato scelto)
 	 * 
 	 * @throws Exception Errore catturato durante la conversione
 	 */
 	public void avviaConversione() throws Exception {
-		if (!fileDati.isFile() || !fileDati.exists()) {
+		if (!fileDati.isFile() || !fileDati.exists())
 			throw new Exception("File Dati inesistente.");
-		} else {
-			salvaExcel(converter(leggiDati()));
-		}
+
+		RiscossioneWriter writer = new RiscossioneWriter(fileOutput);
+		writer.save(converter(readBlockData()));
+
 	}
 
 	/**
 	 * Legge il file dati e ritorna l'elenco di record (stringhe)
 	 * 
 	 * @return Lista di record
-	 * @throws FileNotFoundException File dati non trovato
+	 * @throws Exception Errore nella lettura del file dati
 	 */
-	private ArrayList<String> leggiDati() throws FileNotFoundException {
+	private ArrayList<String> readBlockData() throws Exception {
 		ArrayList<String> records = new ArrayList<String>();
 		Scanner scanner = new Scanner(fileDati);
 		while (scanner.hasNextLine()) {
@@ -111,126 +100,8 @@ public class RiscossioneConverter {
 	}
 
 	/**
-	 * Serializza sul file Excel prestabilito l'elenco di oggetti RiscossioneModel
-	 * fornito
-	 * 
-	 * @param cartelle Lista di oggetti RiscossioneModel
-	 * @throws Exception Errore nel salvataggio su file Excel
-	 */
-	private void salvaExcel(ArrayList<RiscossioneModel> cartelle) throws Exception {
-
-		Workbook workbook = null;
-		Sheet sheet = null;
-		Row row = null;
-		Cell cell = null;
-
-		String sheetName = "Riscossione";
-
-		Object[] headerValues = RiscossioneModel.Campi.values();
-
-		int newRowIndex = 0;
-
-		try {
-
-			if (fileExcel.exists() && !fileExcel.isDirectory()) { // File esistente (append)
-				FileInputStream inputStream = new FileInputStream(fileExcel);
-				workbook = WorkbookFactory.create(inputStream);
-				sheet = workbook.getSheet(sheetName);
-				inputStream.close();
-				newRowIndex = sheet.getLastRowNum() + 1;
-			} else { // Nuovo file
-				newRowIndex = 0;
-				workbook = new HSSFWorkbook();
-				sheet = workbook.createSheet(sheetName);
-				Row headerRow = sheet.createRow(newRowIndex);
-				for (int i = 0; i < headerValues.length; i++) {
-					cell = headerRow.createCell(i, CellType.STRING);
-					cell.setCellValue(headerValues[i].toString().replace("_", " "));
-				}
-				newRowIndex++;
-			}
-
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-			throw new Exception("File Excel invalido o danneggiato.");
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new Exception("Errore generico di I/O.");
-		}
-
-		CellStyle cellStyle2decimal = workbook.createCellStyle();
-		cellStyle2decimal.setDataFormat(workbook.createDataFormat().getFormat("0.00"));
-
-		for (RiscossioneModel cartella : cartelle) {
-
-			row = sheet.createRow(newRowIndex);
-
-			cell = row.createCell(RiscossioneModel.Campi.Agente_Riscossione.ordinal(), CellType.NUMERIC);
-			cell.setCellValue(cartella.getAgenteRiscossione());
-
-			cell = row.createCell(RiscossioneModel.Campi.Ente_Impositore.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getEnteImpositore());
-
-			cell = row.createCell(RiscossioneModel.Campi.Tipo_Ufficio.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getTipoUfficio());
-
-			cell = row.createCell(RiscossioneModel.Campi.Codice_Ufficio.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getCodiceUfficio());
-
-			cell = row.createCell(RiscossioneModel.Campi.Anno_Ruolo.ordinal(), CellType.NUMERIC);
-			cell.setCellValue(cartella.getAnnoRuolo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Numero_Ruolo.ordinal(), CellType.NUMERIC);
-			cell.setCellValue(cartella.getNumeroRuolo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Specie_Ruolo.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getSpecieRuolo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Codice_Contribuente.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getCodiceContribuente());
-
-			cell = row.createCell(RiscossioneModel.Campi.Codice_Cartella.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getCodiceCartella());
-
-			cell = row.createCell(RiscossioneModel.Campi.Progressivo_Tributo.ordinal(), CellType.NUMERIC);
-			cell.setCellValue(cartella.getProgressivoTributo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Codice_Tributo.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getCodiceTributo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Anno_Tributo.ordinal(), CellType.NUMERIC);
-			cell.setCellValue(cartella.getAnnoTributo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Tipo_Tributo.ordinal(), CellType.STRING);
-			cell.setCellValue(cartella.getTipoTributo());
-
-			cell = row.createCell(RiscossioneModel.Campi.Carico_Iscritto.ordinal(), CellType.NUMERIC);
-			cell.setCellStyle(cellStyle2decimal);
-			cell.setCellValue(cartella.getCaricoIscritto());
-
-			cell = row.createCell(RiscossioneModel.Campi.Carico_Residuo.ordinal(), CellType.NUMERIC);
-			cell.setCellStyle(cellStyle2decimal);
-			cell.setCellValue(cartella.getCaricoResiduo());
-
-			newRowIndex++;
-
-		}
-
-		try {
-			FileOutputStream outputStream = new FileOutputStream(fileExcel);
-			workbook.write(outputStream);
-			workbook.close();
-			outputStream.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new Exception("Impossibile creare o aggiornare il file Excel. Verificare che non sia aperto.");
-		}
-
-	}
-
-	/**
 	 * Converte un elenco di record in un elenco di oggetti RiscossioneModel, pronti
-	 * per essere serializzati in formato Excel
+	 * per essere serializzati nel formato desiderato
 	 * 
 	 * @param records Elenco di record da convertire
 	 * @return Elenco di oggetti RiscossioneModel
@@ -244,12 +115,14 @@ public class RiscossioneConverter {
 				cartelle.add(converter(record, index));
 			index++;
 		}
+		if(cartelle.size()==0)
+			throw new Exception("Il file dati non ha record validi.");
 		return cartelle;
 	}
 
 	/**
 	 * Converte un singolo record in un oggetto RiscossioneModel, pronto per essere
-	 * serializzato in formato Excel
+	 * serializzato nel formato desiderato
 	 * 
 	 * @param record record da convertire
 	 * @param index  indice del record (utile in caso di errore)
@@ -275,8 +148,8 @@ public class RiscossioneConverter {
 			cartella.setCodiceTributo(record.substring(65, 69).trim());
 			cartella.setAnnoTributo(Integer.parseInt(record.substring(69, 73)));
 			cartella.setTipoTributo(record.substring(73, 74).trim());
-			cartella.setCaricoIscritto(Float.parseFloat(record.substring(74, 89) + "." + record.substring(89, 91)));
-			cartella.setCaricoResiduo(Float.parseFloat(record.substring(91, 106) + "." + record.substring(106, 108)));
+			cartella.setCaricoIscritto(Double.parseDouble(record.substring(74, 89) + "." + record.substring(89, 91)));
+			cartella.setCaricoResiduo(Double.parseDouble(record.substring(91, 106) + "." + record.substring(106, 108)));
 
 		} catch (Exception e) {
 			e.printStackTrace();

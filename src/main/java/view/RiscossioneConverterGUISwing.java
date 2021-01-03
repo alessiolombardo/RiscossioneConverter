@@ -8,7 +8,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import controller.RiscossioneConverter;
-
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
@@ -21,10 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.Color;
 
 /**
  * 
- * GUI Swing (compatibile con Java 7)
+ * GUI Swing (compatibile con Java 7 e superiori)
  * 
  * @author Alessio Lombardo
  *
@@ -44,9 +44,9 @@ public class RiscossioneConverterGUISwing extends JFrame {
 	private JTextField textFieldFileDati;
 
 	/**
-	 * Text Field che visualizza percorso e nome del file Excel selezionato
+	 * Text Field che visualizza percorso e nome del file di output selezionato
 	 */
-	private JTextField textFieldFileExcel;
+	private JTextField textFieldFileOutput;
 
 	/**
 	 * Controller di tutte le procedure dell'applicazione
@@ -80,18 +80,19 @@ public class RiscossioneConverterGUISwing extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/RiscossioneConverter.png")));
 		setTitle("Riscossione Converter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 470, 222);
+		setBounds(100, 100, 513, 222);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		JButton btnConverti = new JButton("Converti");
+		btnConverti.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnConverti.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				converter.setFileDati(new File(textFieldFileDati.getText()));
-				converter.setFileExcel(new File(textFieldFileExcel.getText()));
+				converter.setFileOutput(new File(textFieldFileOutput.getText()));
 
 				try {
 					converter.avviaConversione();
@@ -99,18 +100,21 @@ public class RiscossioneConverterGUISwing extends JFrame {
 							JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(contentPane, e1.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(contentPane, e1.getClass().getSimpleName() + ": " + e1.getMessage(),
+							"Errore", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
 		});
-		btnConverti.setBounds(171, 134, 113, 44);
+		btnConverti.setBounds(197, 138, 113, 44);
 		contentPane.add(btnConverti);
 
 		JButton btnApriFileDati = new JButton("Apri File Dati");
+		btnApriFileDati.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnApriFileDati.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Apri File Dati");
 				fileChooser.setCurrentDirectory(new File(converter.getLastPathDati()));
 				int result = fileChooser.showOpenDialog(contentPane);
 				File selectedFile = fileChooser.getSelectedFile();
@@ -122,56 +126,67 @@ public class RiscossioneConverterGUISwing extends JFrame {
 				}
 			}
 		});
-		btnApriFileDati.setBounds(326, 71, 118, 23);
+		btnApriFileDati.setBounds(349, 71, 148, 25);
 		contentPane.add(btnApriFileDati);
 
-		JButton btnApriFileExcel = new JButton("Apri File Excel");
-		btnApriFileExcel.addActionListener(new ActionListener() {
+		JButton btnApriFileOutput = new JButton("Apri File di Output");
+		btnApriFileOutput.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		btnApriFileOutput.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.setCurrentDirectory(new File(converter.getLastPathExcel()));
-				fileChooser.setFileFilter(new FileNameExtensionFilter("File Excel (*.xls)", "xls"));
+				fileChooser.setDialogTitle("Apri File di Output");
+				fileChooser.setCurrentDirectory(new File(converter.getLastPathOutput()));
+				fileChooser.setAcceptAllFileFilterUsed(false);
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Excel (*.xlsx)", "xlsx"));
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Excel 97-2003 (*.xls)", "xls"));
+				fileChooser.addChoosableFileFilter(
+						new FileNameExtensionFilter("Open Document Spreadsheet (*.ods)", "ods"));
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("XML (*.xml)", "xml"));
+				fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON (*.json)", "json"));
 				int result = fileChooser.showSaveDialog(contentPane);
 				File selectedFile = fileChooser.getSelectedFile();
 				if (result == JFileChooser.APPROVE_OPTION) {
-					if (!selectedFile.getAbsolutePath().endsWith(".xls"))
-						selectedFile = new File(selectedFile.getAbsolutePath() + ".xls");
+					String selectedFilter = ((FileNameExtensionFilter) fileChooser.getFileFilter()).getExtensions()[0];
+					if (!selectedFile.getAbsolutePath().endsWith("." + selectedFilter))
+						selectedFile = new File(selectedFile + "." + selectedFilter);
+
 					if (selectedFile.exists())
-						converter.setLastPathExcel(selectedFile.getParent());
-					textFieldFileExcel.setText(selectedFile.getAbsolutePath());
+						converter.setLastPathOutput(selectedFile.getParent());
+					textFieldFileOutput.setText(selectedFile.getAbsolutePath());
 				}
 			}
 		});
-		btnApriFileExcel.setBounds(326, 102, 118, 23);
-		contentPane.add(btnApriFileExcel);
+		btnApriFileOutput.setBounds(349, 102, 148, 25);
+		contentPane.add(btnApriFileOutput);
 
 		textFieldFileDati = new JTextField();
-		textFieldFileDati.setBounds(10, 71, 306, 23);
+		textFieldFileDati.setBounds(10, 71, 335, 25);
 		contentPane.add(textFieldFileDati);
 		textFieldFileDati.setColumns(10);
 
-		textFieldFileExcel = new JTextField();
-		textFieldFileExcel.setColumns(10);
-		textFieldFileExcel.setBounds(10, 102, 306, 23);
-		contentPane.add(textFieldFileExcel);
+		textFieldFileOutput = new JTextField();
+		textFieldFileOutput.setColumns(10);
+		textFieldFileOutput.setBounds(10, 102, 335, 25);
+		contentPane.add(textFieldFileOutput);
 
-		JLabel lblSoftwareRealizzatoDa = new JLabel(
-				"Software realizzato da Alessio Lombardo - Dicembre 2020 - Ver 1.0");
+		JLabel lblSoftwareRealizzatoDa = new JLabel("Software realizzato da Alessio Lombardo - Gennaio 2021 - Ver 1.1");
+		lblSoftwareRealizzatoDa.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblSoftwareRealizzatoDa.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSoftwareRealizzatoDa.setBounds(10, 47, 434, 14);
+		lblSoftwareRealizzatoDa.setBounds(10, 47, 487, 14);
 		contentPane.add(lblSoftwareRealizzatoDa);
 
-		JLabel lblTitolo = new JLabel("Convertitore da Formato Dati Riscossione a Excel");
+		JLabel lblTitolo = new JLabel("Convertitore da Formato Dati Riscossione a Excel, ODS, XML, JSON");
+		lblTitolo.setForeground(Color.RED);
 		lblTitolo.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblTitolo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitolo.setBounds(10, 11, 434, 14);
+		lblTitolo.setBounds(10, 11, 487, 14);
 		contentPane.add(lblTitolo);
 
 		JLabel lblDecreto = new JLabel(
 				"come da Decreto 15/06/2015 del Ministero dell'Economia e delle Finanze - Allegati 1/2");
 		lblDecreto.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblDecreto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDecreto.setBounds(10, 28, 434, 14);
+		lblDecreto.setBounds(10, 28, 487, 14);
 		contentPane.add(lblDecreto);
 	}
 }

@@ -6,30 +6,45 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="222.0" maxWidth="470.0" minHeight="222.0" minWidth="470.0" prefHeight="222.0" prefWidth="470.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RiscossioneConverterGUIJavaFX">
+<AnchorPane maxHeight="222.0" maxWidth="510.0" minHeight="222.0" minWidth="500.0" prefHeight="222.0" prefWidth="510.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.RiscossioneConverterGUIJavaFX">
    <children>
-      <AnchorPane maxHeight="222.0" maxWidth="470.0" minHeight="222.0" minWidth="470.0" prefHeight="222.0" prefWidth="470.0">
+      <AnchorPane maxHeight="222.0" maxWidth="510.0" minHeight="222.0" minWidth="500.0" prefHeight="222.0" prefWidth="510.0">
          <children>
-            <Button layoutX="179.0" layoutY="164.0" mnemonicParsing="false" onAction="#converti" prefHeight="44.0" prefWidth="113.0" text="Converti" />
-            <Label alignment="CENTER" layoutX="15.0" layoutY="14.0" prefHeight="17.0" prefWidth="440.0" text="Convertitore da Formato Dati Riscossione a Excel">
+            <Button layoutX="202.0" layoutY="164.0" mnemonicParsing="false" onAction="#converti" prefHeight="44.0" prefWidth="113.0" text="Converti">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font name="Tahoma" size="12.0" />
+               </font></Button>
+            <Label alignment="CENTER" layoutX="13.0" layoutY="14.0" prefHeight="20.0" prefWidth="488.0" text="Convertitore da Formato Dati Riscossione a Excel, ODS, XML, JSON" textFill="RED">
+               <font>
+                  <Font name="Tahoma Bold" size="13.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="15.0" layoutY="31.0" prefHeight="17.0" prefWidth="440.0" text="come da Decreto 15/06/2015 del Ministero dell'Economia e delle Finanze - Allegati 1/2">
+            <Label alignment="CENTER" layoutX="13.0" layoutY="31.0" prefHeight="17.0" prefWidth="488.0" text="come da Decreto 15/06/2015 del Ministero dell'Economia e delle Finanze - Allegati 1/2">
                <font>
-                  <Font size="11.0" />
+                  <Font name="Tahoma" size="10.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="15.0" layoutY="56.0" prefHeight="17.0" prefWidth="440.0" text="Software realizzato da Alessio Lombardo - Dicembre 2020 - Ver 1.0">
+            <Label alignment="CENTER" layoutX="13.0" layoutY="56.0" prefHeight="17.0" prefWidth="488.0" text="Software realizzato da Alessio Lombardo - Gennaio 2021 - Ver 1.1">
                <font>
-                  <Font name="System Bold" size="12.0" />
+                  <Font name="Tahoma Bold" size="11.0" />
                </font>
             </Label>
-            <Button layoutX="357.0" layoutY="86.0" mnemonicParsing="false" onAction="#apriFileDati" prefHeight="25.0" prefWidth="101.0" text="Apri File Dati" />
-            <Button layoutX="357.0" layoutY="124.0" mnemonicParsing="false" onAction="#apriFileExcel" prefHeight="25.0" prefWidth="101.0" text="Apri File Excel" />
-            <TextField fx:id="textFieldFileDati" layoutX="13.0" layoutY="86.0" prefHeight="25.0" prefWidth="335.0" />
-            <TextField fx:id="textFieldFileExcel" layoutX="13.0" layoutY="124.0" prefHeight="25.0" prefWidth="335.0" />
+            <Button layoutX="354.0" layoutY="86.0" mnemonicParsing="false" onAction="#apriFileDati" prefHeight="25.0" prefWidth="148.0" text="Apri File Dati">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font></Button>
+            <Button layoutX="354.0" layoutY="124.0" mnemonicParsing="false" onAction="#apriFileOutput" prefHeight="25.0" prefWidth="148.0" text="Apri File di Output">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font></Button>
+            <TextField fx:id="textFieldFileDati" layoutX="13.0" layoutY="86.0" prefHeight="25.0" prefWidth="335.0">
+               <font>
+                  <Font name="Tahoma" size="11.0" />
+               </font></TextField>
+            <TextField fx:id="textFieldFileOutput" layoutX="13.0" layoutY="124.0" prefHeight="25.0" prefWidth="335.0">
+               <font>
+                  <Font name="Tahoma" size="12.0" />
+               </font></TextField>
          </children>
       </AnchorPane>
    </children>
