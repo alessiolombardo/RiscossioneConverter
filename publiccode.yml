@@ -110,7 +110,7 @@ outputTypes:
 platforms:
   - windows
   - linux
-releaseDate: '2021-01-03'
+releaseDate: '2022-05-27'
 softwareType: standalone/desktop
-softwareVersion: '1.1'
+softwareVersion: '1.2'
 url: 'https://github.com/alessiolombardo/RiscossioneConverter'
